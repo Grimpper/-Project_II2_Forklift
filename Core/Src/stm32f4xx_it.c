@@ -42,7 +42,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-volatile int systickCounter = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -59,7 +59,7 @@ volatile int systickCounter = 0;
 extern TIM_HandleTypeDef htim1;
 
 /* USER CODE BEGIN EV */
-
+extern volatile uint32_t ticksCount;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -185,24 +185,7 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-	systickCounter++;
-	
-	if (systickCounter % 3000 == 0)
-	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_12);
-	}
-	if (systickCounter % 1500 == 0)
-	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_13);
-	}
-	if (systickCounter % 750 == 0)
-	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_14);
-	}
-	if (systickCounter % 375 == 0)
-	{
-		HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-	}
+	ticksCount++;
   /* USER CODE END SysTick_IRQn 0 */
 
   /* USER CODE BEGIN SysTick_IRQn 1 */
