@@ -13,7 +13,7 @@ uint32_t timerValueMs(void)
 	return ticksCount;
 }
 
-uint32_t timerElapsedTime(uint32_t mark)
+uint32_t timerElapsedTimeMs(uint32_t mark)
 {
 	return timerValueMs() - mark;
 }
