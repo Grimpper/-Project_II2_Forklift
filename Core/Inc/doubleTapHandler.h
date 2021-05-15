@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 
-void setTappingTerm(uint32_t timeMs);
+void setTappingTerm(uint16_t timeMs);
+void setMinTappingTerm(uint16_t timeMs);
 void setTapState(void);
 
 #endif

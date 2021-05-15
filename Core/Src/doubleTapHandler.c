@@ -4,11 +4,16 @@
 #include <stdio.h>
 
 volatile uint16_t tapState = 0;
-uint16_t minTappingTerm = 50 * (uint16_t)50000000 / 500;
+uint16_t minTappingTicks = 500;
 
-void setTappingTerm(uint32_t timeMs)
+void setTappingTerm(uint16_t timeMs)
 {
-	TIM6->ARR = 50000000 / 500 * 0.2;
+	TIM6->ARR = 50000000 / (5000 * 1000) * timeMs;
+}
+
+void setMinTappingTerm(uint16_t timeMs)
+{
+	minTappingTicks = 50000000 / (5000 * 1000) * timeMs;
 }
 
 void setTapState(void)
@@ -20,17 +25,8 @@ void setTapState(void)
 	}
 	else if (tapState == 1)
 	{
-		if (TIM6->CNT < minTappingTerm) return;
+		if (TIM6->CNT < minTappingTicks) return;
 		else tapState = 2;
 	}
-	
-	/*
-	if (tapState == 1 && TIM6->CNT > minTappingTerm) tapState = 2;
-	else if (tapState == 0 || TIM6->CNT > minTappingTerm)
-	{
-		tapState = 1;
-		TIM6->CNT = 0; // Reset counter value
-		HAL_TIM_Base_Start_IT(&htim6); // Can count up to 655.35 ms but will overflow at 200 ms
-	}*/
 }
 
