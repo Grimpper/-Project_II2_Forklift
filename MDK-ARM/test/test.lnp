@@ -1,10 +1,8 @@
 --cpu=Cortex-M4.fp.sp
 "test\startup_stm32f407xx.o"
 "test\debug.o"
-"test\doubletaphandler.o"
 "test\main.o"
 "test\gpio.o"
-"test\tim.o"
 "test\stm32f4xx_it.o"
 "test\stm32f4xx_hal_msp.o"
 "test\stm32f4xx_hal_timebase_tim.o"
