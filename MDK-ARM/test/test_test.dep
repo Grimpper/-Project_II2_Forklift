@@ -11,8 +11,8 @@ I (../Drivers/CMSIS/Include/cmsis_compiler.h)(0x6022AB57)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x6022AB57)
 I (../Drivers/CMSIS/Include/mpu_armv7.h)(0x6022AB57)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x6022AB54)
-F (..\Core\Src\doubleTapHandler.c)(0x609FFF97)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_test-IC:\Users\juegos\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\juegos\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o test\doubletaphandler.o --omf_browse test\doubletaphandler.crf --depend test\doubletaphandler.d)
-I (../Core/Inc/doubleTapHandler.h)(0x609FFFDE)
+F (..\Core\Src\doubleTapHandler.c)(0x60A002D6)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_test-IC:\Users\juegos\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\juegos\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o test\doubletaphandler.o --omf_browse test\doubletaphandler.crf --depend test\doubletaphandler.d)
+I (../Core/Inc/doubleTapHandler.h)(0x60A002D6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5E8E9122)
 I (../Core/Inc/main.h)(0x609FEC22)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x6022AB75)
@@ -45,8 +45,8 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x6022AB75)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x6022AB75)
 I (../Core/Inc/tim.h)(0x609FEC21)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E9122)
-F (..\Core\Inc\doubleTapHandler.h)(0x609FFFDE)()
-F (../Core/Src/main.c)(0x60A00216)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_test-IC:\Users\juegos\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\juegos\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o test\main.o --omf_browse test\main.crf --depend test\main.d)
+F (..\Core\Inc\doubleTapHandler.h)(0x60A002D6)()
+F (../Core/Src/main.c)(0x60A002D6)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_test-IC:\Users\juegos\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\juegos\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o test\main.o --omf_browse test\main.crf --depend test\main.d)
 I (../Core/Inc/main.h)(0x609FEC22)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x6022AB75)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x609FEC22)
@@ -80,7 +80,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x6022AB75)
 I (../Core/Inc/tim.h)(0x609FEC21)
 I (../Core/Inc/gpio.h)(0x609FEC21)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5E8E9122)
-I (../Core/Inc/doubleTapHandler.h)(0x609FFFDE)
+I (../Core/Inc/doubleTapHandler.h)(0x60A002D6)
 F (../Core/Src/gpio.c)(0x609FEC21)(--c99 -c --cpu Cortex-M4.fp.sp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_test-IC:\Users\juegos\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include-IC:\Users\juegos\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\2.15.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="533" -D_RTE_ -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx-o test\gpio.o --omf_browse test\gpio.crf --depend test\gpio.d)
 I (../Core/Inc/gpio.h)(0x609FEC21)
 I (../Core/Inc/main.h)(0x609FEC22)

@@ -27,7 +27,7 @@ void setTapState(void)
 	if (tapState == 0) {
 		tapState = 1;
 		TIM6->CNT = 0; // Reset counter value
-		HAL_TIM_Base_Start_IT(&htim6); // Can count up to 6.5535 s but will overflow at TAPPINTERM ms
+		HAL_TIM_Base_Start_IT(&htim6); // Can count up to 6.5535 s but will overflow at TAPPINGTERM ms
 	}
 	else if (tapState == 1)
 	{
