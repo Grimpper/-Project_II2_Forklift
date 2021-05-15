@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;  ../Drivers/STM32F4xx_HAL_Driver/Inc;  ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;  ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;        ../Drivers/STM32F4xx_HAL_Driver/Inc;        ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;        ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;        ../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -399,6 +399,16 @@
               <FilePath>..\Core\Src\debug.c</FilePath>
             </File>
             <File>
+              <FileName>doubleTapHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\doubleTapHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>doubleTapHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\doubleTapHandler.h</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
@@ -407,6 +417,11 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/tim.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_it.c</FileName>
