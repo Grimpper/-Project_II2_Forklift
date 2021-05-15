@@ -153,12 +153,12 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>((TIM_TypeDef *) (0x40000000UL + 0x1000UL))-&gt;CNT</ItemText>
+          <ItemText>((TIM_TypeDef *) (0x40000000UL + 0x1000UL))-&gt;CNT,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>minTappingTerm</ItemText>
+          <ItemText>((TIM_TypeDef *) (0x40000000UL + 0x1000UL))-&gt;ARR,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
