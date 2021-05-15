@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 volatile uint16_t tapState = 0;
-uint16_t minTappingTerm = 500 * (uint16_t)50000000 / 5000;
+uint16_t minTappingTerm = 50 * (uint16_t)50000000 / 500;
 
 void setTappingTerm(uint32_t timeMs)
 {
