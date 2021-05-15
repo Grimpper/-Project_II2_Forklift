@@ -96,6 +96,9 @@ int main(void)
   MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 	
+	setTappingTerm(300);
+	setMinTappingTerm(50);
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
