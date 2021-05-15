@@ -1,19 +1,24 @@
 #include "timerHandler.h"
 #include "stm32f4xx_hal.h"
 
-volatile uint32_t ticksCount = 0;
+volatile uint32_t tickCount = 0;
 
 void initTimer(void)
 {	
 	HAL_SYSTICK_Config(SystemCoreClock * 0.001);
 }
 
-uint32_t timerValueMs(void)
+void resetTickCount(void)
 {
-	return ticksCount;
+	tickCount = 0;
 }
 
-uint32_t timerElapsedTime(uint32_t mark)
+uint32_t timerValueMs(void)
+{
+	return tickCount;
+}
+
+uint32_t timerElapsedTimeMs(uint32_t mark)
 {
 	return timerValueMs() - mark;
 }

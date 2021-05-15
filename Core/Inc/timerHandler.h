@@ -4,7 +4,9 @@
 #include <stdint.h>
 
 void initTimer(void);
-uint32_t timerValue(void);
-uint32_t timerElapsedTime(uint32_t mark);
+
+void resetTickCount(void);
+uint32_t timerValueMs(void);
+uint32_t timerElapsedTimeMs(uint32_t mark);
 
 #endif
