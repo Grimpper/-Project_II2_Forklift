@@ -16,12 +16,18 @@ void setMinTappingTerm(uint16_t timeMs)
 	minTappingTicks = 50000000 / (5000 * 1000) * timeMs;
 }
 
+
+void resetTimer(void)
+{
+	TIM6->CNT = 0;
+}
+
 void setTapState(void)
 {	
 	if (tapState == 0) {
 		tapState = 1;
 		TIM6->CNT = 0; // Reset counter value
-		HAL_TIM_Base_Start_IT(&htim6); // Can count up to 655.35 ms but will overflow at 200 ms
+		HAL_TIM_Base_Start_IT(&htim6); // Can count up to 6.5535 s but will overflow at TAPPINTERM ms
 	}
 	else if (tapState == 1)
 	{

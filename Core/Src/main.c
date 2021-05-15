@@ -177,26 +177,49 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if (tapState == 1) 
 		{
+			// ACTION TO ON SINGLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			// ACTION TO ON SINGLE TAP
 			
 			tapState = 3;
+			setTappingTerm(5000); // LENGTH OF THE ACTION
+			resetTimer();
 		}
 		else if (tapState == 2)
 		{
+			// ACTION TO ON DOUBLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			// ACTION TO ON DOUBLE TAP
 			
-			TIM6->CNT = 0;
 			tapState = 3;
+			setTappingTerm(5000); // LENGTH OF THE ACTION
+			resetTimer();
+			
+			/* NOTE
+			
+			Since the tapping term sets the overflow limit of the timer that drives this
+			interruption, setting it to a longer period after the tapState is declared, will
+			prevent the next iteration to be called until the new overflow is reached. In the
+			next iteration of this interuption the tapState will be 3 and therfore the action 
+			will be stoped in the below else statement. After stopping the action we set the 
+			tapping term to normal operation.
+			
+			*/
 		}
 		else 
-		{
+		{	
+			// END THE ACTION
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			// END THE ACTION
 			
-			HAL_TIM_Base_Stop_IT(&htim6); // Can count up to 655.35 ms but will overflow at 200 ms
 			tapState = 0;
+			setTappingTerm(300); // RESTORE TAPPING TERM
+			resetTimer();
+			
+			HAL_TIM_Base_Stop_IT(&htim6);
 		}
 	
 	}
