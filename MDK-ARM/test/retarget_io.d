@@ -1,4 +1,4 @@
-test\retarget_io.o: C:\Users\juegos\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.3\Source\retarget_io.c
+test\retarget_io.o: C:\Users\Usuario\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.3\Source\retarget_io.c
 test\retarget_io.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 test\retarget_io.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 test\retarget_io.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
