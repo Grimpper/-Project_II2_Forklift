@@ -94,6 +94,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM6_Init();
+  MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
 	
 	setTappingTerm(300);
