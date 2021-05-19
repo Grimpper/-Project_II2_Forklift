@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "doubleTapHandler.h"
+#include "safetyHandler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/

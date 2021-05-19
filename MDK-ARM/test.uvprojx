@@ -438,6 +438,16 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_hal_timebase_tim.c</FilePath>
             </File>
+            <File>
+              <FileName>safetyHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\safetyHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>safetyHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\safetyHandler.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
