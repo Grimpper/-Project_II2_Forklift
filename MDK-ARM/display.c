@@ -2,7 +2,7 @@
 #include "lift.h"
 #include "display.h"
 
-volatile uint16_t numbers[]={0xff40,0xff79,0xffa4,0xff30,0xff19};
+volatile uint8_t numbers[]={0x3f,0x06,0x5b,0x4f,0x6d};
 uint8_t i=0;
 
 void display_init (void)

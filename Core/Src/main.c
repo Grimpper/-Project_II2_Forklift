@@ -100,7 +100,7 @@ int main(void)
   MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
 	GPIOC->ODR = GPIOC->ODR & 0xFF80;
-	extern uint16_t numbers[];
+	extern uint8_t numbers[];
 	
 	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
 	setTappingTerm(300);
