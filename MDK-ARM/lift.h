@@ -5,6 +5,10 @@
 
 void lift_Init(void);
 void pwm_switch_Init(void);
+
+void display_init (void); 
+void display_show(void);
+
 void motor_stop(void);
 	
 void lift_Up (void);

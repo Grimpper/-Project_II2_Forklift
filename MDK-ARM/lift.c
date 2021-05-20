@@ -8,8 +8,6 @@
 int current_floor = INIT_FLOOR;
 
 
-
-
 void lift_Init(void){
 	GPIO_InitTypeDef lift_port;
 	
@@ -49,21 +47,23 @@ void lift_Down(void)
 {
 	// Motor actuator DOWN
 	htim14.Instance->CCR1 = DUTY_CYCLE;
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);  //relay active to change motor polarity
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET); 	//relay active to change motor polarity
 }
 
 void update_floor(int aux_floor)
 {	
 	if(aux_floor == 1 && current_floor != 4) //check if the current floor is the top one
 		{
-				current_floor++;
+				
 				lift_Up();
+				current_floor++;
 	  }
 		
 	if(aux_floor == 2 && current_floor != 0) //check if the current floor is the botton one
 		{
-				current_floor--;
+				
 				lift_Down();
+			  current_floor--;
 		}
 
 	

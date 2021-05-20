@@ -28,6 +28,8 @@
 #include <stdint.h>
 #include "doubleTapHandler.h"
 #include "lift.h"
+#include "display.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -82,7 +84,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+	void  display_init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -97,6 +99,8 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
+	GPIOC->ODR = GPIOC->ODR & 0xFF80;
+	extern uint16_t numbers[];
 	
 	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
 	setTappingTerm(300);
@@ -108,7 +112,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
+		GPIOC->ODR = numbers[get_floor()]; 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -218,7 +222,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// END THE ACTION
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			void motor_stop();
+			htim14.Instance-> CCR1 = 0;
+	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 			// END THE ACTION
 			
 			tapState = 0;

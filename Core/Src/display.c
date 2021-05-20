@@ -15,10 +15,11 @@ void display_init (void)
 	display_port.Mode = GPIO_MODE_OUTPUT_PP;
 	display_port.Pull = GPIO_NOPULL;
 	
-	HAL_GPIO_Init(GPIOC, &display_port);
+	HAL_GPIO_Init(GPIOA, &display_port);
 }
 
 void display_show (void)
 {
 	GPIOC->ODR = numbers[get_floor()];
 }
+

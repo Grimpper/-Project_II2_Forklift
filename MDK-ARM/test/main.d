@@ -35,3 +35,4 @@ test\main.o: ../Core/Inc/gpio.h
 test\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 test\main.o: ../Core/Inc/doubleTapHandler.h
 test\main.o: ../Core/Inc/lift.h
+test\main.o: ../Core/Inc/display.h
