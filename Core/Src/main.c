@@ -27,6 +27,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "doubleTapHandler.h"
+#include "safetyHandler.h"
 #include "lift.h"
 #include "display.h"
 
@@ -184,11 +185,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		
 		if (tapState == 1) 
 		{
-			// ACTION TO ON SINGLE TAP
+			// ACTION TO DO ON SINGLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
 			update_floor(1); //Motor UP (lift.c)
-			// ACTION TO ON SINGLE TAP
+			// ACTION TO DO ON SINGLE TAP
 			
 			tapState = 3;
 			setTappingTerm(5000); // LENGTH OF THE ACTION
@@ -196,11 +197,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		}
 		else if (tapState == 2)
 		{
-			// ACTION TO ON DOUBLE TAP
+			// ACTION TO DO ON DOUBLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
 			update_floor(2); //Motor Dowm (lift.c)
-			// ACTION TO ON DOUBLE TAP
+			// ACTION TO DO ON DOUBLE TAP
 			
 			tapState = 3;
 			setTappingTerm(5000); // LENGTH OF THE ACTION
