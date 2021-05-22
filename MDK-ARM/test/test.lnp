@@ -2,6 +2,8 @@
 "test\startup_stm32f407xx.o"
 "test\debug.o"
 "test\doubletaphandler.o"
+"test\lift.o"
+"test\display.o"
 "test\main.o"
 "test\gpio.o"
 "test\tim.o"

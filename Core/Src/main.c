@@ -28,6 +28,9 @@
 #include <stdint.h>
 #include "doubleTapHandler.h"
 #include "safetyHandler.h"
+#include "lift.h"
+#include "display.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -82,7 +85,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-
+	void  display_init();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -95,8 +98,12 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM6_Init();
+  MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
+	GPIOC->ODR = GPIOC->ODR & 0xFF80;
+	extern uint8_t numbers[];
 	
+	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
 	setTappingTerm(300);
 	setMinTappingTerm(50);
 	
@@ -106,7 +113,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
+		GPIOC->ODR = numbers[get_floor()]; 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -181,6 +188,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// ACTION TO DO ON SINGLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			update_floor(1); //Motor UP (lift.c)
 			// ACTION TO DO ON SINGLE TAP
 			
 			tapState = 3;
@@ -192,6 +200,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// ACTION TO DO ON DOUBLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			update_floor(2); //Motor Dowm (lift.c)
 			// ACTION TO DO ON DOUBLE TAP
 			
 			tapState = 3;
@@ -214,6 +223,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// END THE ACTION
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			htim14.Instance-> CCR1 = 0;
+	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 			// END THE ACTION
 			
 			tapState = 0;
