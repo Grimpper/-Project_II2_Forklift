@@ -10,10 +10,15 @@ void initSafetyPins()
 	
 	if (!__HAL_RCC_GPIOA_IS_CLK_ENABLED()) __HAL_RCC_GPIOA_CLK_ENABLE();
 	
-	port.Pin = GPIO_PIN_1 | GPIO_PIN_2;
+	port.Pin = GPIO_PIN_1;
 	port.Mode = GPIO_MODE_IT_RISING;
 	port.Pull = GPIO_PULLDOWN;
 	
+	HAL_GPIO_Init(GPIOA, &port);	
+	
+	port.Pin = GPIO_PIN_2;
+	port.Mode = GPIO_MODE_IT_RISING_FALLING;
+
 	HAL_GPIO_Init(GPIOA, &port);	
 }
 
@@ -41,5 +46,4 @@ void lockLifter()
 void unlockLifter()
 {
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-	HAL_TIM_Base_Start_IT(&htim6);
 }
