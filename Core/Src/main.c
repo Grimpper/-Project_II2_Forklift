@@ -30,6 +30,7 @@
 #include "safetyHandler.h"
 #include "lift.h"
 #include "display.h"
+#include "overWeight.h"
 
 /* USER CODE END Includes */
 
@@ -102,6 +103,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	GPIOC->ODR = GPIOC->ODR & 0xFF80;
 	extern uint8_t numbers[];
+	extern uint8_t overWeight;
+
 	
 	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
 	setTappingTerm(300);
@@ -182,6 +185,33 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if (htim->Instance == TIM6)
 	{
 		extern uint16_t tapState;
+		
+		uint32_t weight;
+		
+		weightInit();
+		adcInit();
+		weight = readWeight();
+		
+		if (weight > 5000)
+		{
+			//Añadir funcion de bloqueo de seguridad
+		  while(weight > 5000){
+      
+			readWeight();
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+      HAL_Delay(5000);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);	
+			HAL_Delay(5000);
+			}
+		  //Añadir funcion de desbloqueo de seguridad para continuar naturalmente
+			
+		}	
 		
 		if (tapState == 1) 
 		{

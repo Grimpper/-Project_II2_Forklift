@@ -16,4 +16,5 @@ void lift_Down(void);
 
 void update_floor(int);
 int get_floor (void);
+
 #endif
