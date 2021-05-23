@@ -30,6 +30,7 @@
 #include "safetyHandler.h"
 #include "displayHandler.h"
 #include "liftHandler.h"
+#include "overWeight.h"
 
 /* USER CODE END Includes */
 
@@ -64,6 +65,7 @@ void SystemClock_Config(void);
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	
 	setTapState();
 }
 
@@ -104,8 +106,9 @@ int main(void)
 	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
 	setTappingTerm(300);
 	setMinTappingTerm(60);
-	
+	initSafetyPins();
 	updateDisplay();
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -164,7 +167,39 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void EXTI1_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
+	{
+		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
+	
+		emergencyStop();	
+	}
+		
+}
+static uint8_t latchState = 1; //First time we open the door, latch is open
+void EXTI2_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_2))
+	{
+		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_2);
+			
+			if (latchState == 1) 
+			{
+				lockLifter();
+				latchState = 0;
+				
+				
+			}else if(latchState == 0)
+			{
+				unlockLifter();
+				latchState = 1;
+			}
+			
+	}
+		
+	
+}
 /* USER CODE END 4 */
 
  /**
@@ -178,10 +213,40 @@ void SystemClock_Config(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
+/*		uint32_t weight;
+		
+		weightInit();
+		adcInit();
+*/	
 	if (htim->Instance == TIM6)
 	{
 		extern tapActionEnum tapAction;
+/*
+		weight = readWeight();
 		
+		if (weight > 5000)
+		{
+			lockLifter();
+			
+		  while(weight > 5000){
+      
+			weight = readWeight();
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+      HAL_Delay(2000);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);	
+			HAL_Delay(2000);
+			}
+			
+		  unlockLifter();
+			
+		}	
+		*/
 		if (tapAction == UP) 
 		{
 			// ACTION TO DO ON SINGLE TAP
