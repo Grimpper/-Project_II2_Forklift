@@ -103,7 +103,7 @@ int main(void)
 	
 	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
 	setTappingTerm(300);
-	setMinTappingTerm(50);
+	setMinTappingTerm(60);
 	
 	updateDisplay();
   /* USER CODE END 2 */
@@ -180,33 +180,31 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 	if (htim->Instance == TIM6)
 	{
-		extern uint16_t tapAction;
+		extern tapActionEnum tapAction;
 		
 		if (tapAction == UP) 
 		{
 			// ACTION TO DO ON SINGLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			updateFloor(tapAction); //Motor UP (lift.c)
+			updateFloor(tapAction); //Motor UP (liftHandler.c)
 			updateDisplay();
 			// ACTION TO DO ON SINGLE TAP
 			
 			tapAction = WAITING;
 			setTappingTerm(5000); // LENGTH OF THE ACTION
-			resetTimer();
 		}
 		else if (tapAction == DOWN)
 		{
 			// ACTION TO DO ON DOUBLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-			updateFloor(tapAction); //Motor Dowm (lift.c)
+			updateFloor(tapAction); //Motor Dowm (liftHandler.c)
 			updateDisplay();
 			// ACTION TO DO ON DOUBLE TAP
 			
 			tapAction = WAITING;
 			setTappingTerm(5000); // LENGTH OF THE ACTION
-			resetTimer();
 			
 			/* NOTE
 			
@@ -231,7 +229,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			
 			tapAction = IDLE;
 			setTappingTerm(300); // RESTORE TAPPING TERM
-			resetTimer();
 			
 			HAL_TIM_Base_Stop_IT(&htim6);
 		}
