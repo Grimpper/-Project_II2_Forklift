@@ -409,26 +409,6 @@
               <FilePath>..\Core\Inc\doubleTapHandler.h</FilePath>
             </File>
             <File>
-              <FileName>lift.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lift.c</FilePath>
-            </File>
-            <File>
-              <FileName>lift.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\lift.h</FilePath>
-            </File>
-            <File>
-              <FileName>display.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\display.c</FilePath>
-            </File>
-            <File>
-              <FileName>display.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\display.h</FilePath>
-            </File>
-            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
@@ -467,6 +447,26 @@
               <FileName>safetyHandler.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Core\Inc\safetyHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>displayHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\displayHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>displayHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\displayHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>liftHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\liftHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>liftHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\liftHandler.c</FilePath>
             </File>
           </Files>
         </Group>

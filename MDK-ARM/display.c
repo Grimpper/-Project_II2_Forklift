@@ -2,10 +2,20 @@
 #include "lift.h"
 #include "display.h"
 
-volatile uint8_t numbers[]={0x3f,0x06,0x5b,0x4f,0x6d};
-uint8_t i=0;
+const uint8_t floorTable[10] = {
+	0x40,	// 0b 0100 0000 = 0
+	0x79, // 0b 0111 1001 = 1
+	0x24, // 0b 0010 0100 = 2
+	0x30, // 0b 0011 0000 = 3
+	0x19, // 0b 0001 1001 = 4
+	0x12, // 0b 0001 0010 = 5
+	0x02, // 0b 0000 0010 = 6
+	0x78, // 0b 0111 1000 = 7
+	0x00, // 0b 0000 0000 = 8
+	0x18  // 0b 0001 1000 = 9
+};
 
-void display_init (void)
+void initDisplay(void)
 {
 	GPIO_InitTypeDef display_port;
 	
@@ -18,7 +28,12 @@ void display_init (void)
 	HAL_GPIO_Init(GPIOC, &display_port);
 }
 
-void display_show (void)
+void showDisplay(void)
 {
-	GPIOC->ODR = numbers[get_floor()];
+	GPIOC->ODR = floorTable[get_floor()];
+}
+
+void clearDisplay(void)
+{
+	GPIOC->ODR &= 0xFF80;
 }

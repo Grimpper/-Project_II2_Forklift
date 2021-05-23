@@ -1,5 +1,5 @@
-#ifndef __LIFT_H
-#define __LIFT_H
+#ifndef __LIFTHANDLER_H
+#define __LIFTHANDLER_H
 
 #include <stdint.h>
 #include "doubleTapHandler.h"

@@ -3,7 +3,7 @@
 #include "tim.h"
 #include <stdio.h>
 
-volatile uint16_t tapState = 0;
+volatile tapActionEnum tapAction = IDLE;
 uint16_t minTappingTicks = 500;
 
 void setTappingTerm(uint16_t timeMs)
@@ -24,15 +24,15 @@ void resetTimer(void)
 
 void setTapState(void)
 {	
-	if (tapState == 0) {
-		tapState = 1;
+	if (tapAction == IDLE) {
+		tapAction = UP;
 		TIM6->CNT = 0; // Reset counter value
 		HAL_TIM_Base_Start_IT(&htim6); // Can count up to 6.5535 s but will overflow at TAPPINGTERM ms
 	}
-	else if (tapState == 1)
+	else if (tapAction == UP)
 	{
 		if (TIM6->CNT < minTappingTicks) return;
-		else tapState = 2;
+		else tapAction = DOWN;
 	}
 }
 
