@@ -28,8 +28,8 @@
 #include <stdint.h>
 #include "doubleTapHandler.h"
 #include "safetyHandler.h"
-#include "lift.h"
-#include "display.h"
+#include "displayHandler.h"
+#include "liftHandler.h"
 
 /* USER CODE END Includes */
 
@@ -85,7 +85,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-	void  display_init();
+	initDisplay();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -100,20 +100,19 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
-	GPIOC->ODR = GPIOC->ODR & 0xFF80;
-	extern uint8_t numbers[];
 	
 	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
 	setTappingTerm(300);
 	setMinTappingTerm(50);
 	
+	updateDisplay();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		GPIOC->ODR = numbers[get_floor()]; 
+		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -181,29 +180,31 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 	if (htim->Instance == TIM6)
 	{
-		extern uint16_t tapState;
+		extern uint16_t tapAction;
 		
-		if (tapState == 1) 
+		if (tapAction == UP) 
 		{
 			// ACTION TO DO ON SINGLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			update_floor(1); //Motor UP (lift.c)
+			updateFloor(tapAction); //Motor UP (lift.c)
+			updateDisplay();
 			// ACTION TO DO ON SINGLE TAP
 			
-			tapState = 3;
+			tapAction = WAITING;
 			setTappingTerm(5000); // LENGTH OF THE ACTION
 			resetTimer();
 		}
-		else if (tapState == 2)
+		else if (tapAction == DOWN)
 		{
 			// ACTION TO DO ON DOUBLE TAP
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-			update_floor(2); //Motor Dowm (lift.c)
+			updateFloor(tapAction); //Motor Dowm (lift.c)
+			updateDisplay();
 			// ACTION TO DO ON DOUBLE TAP
 			
-			tapState = 3;
+			tapAction = WAITING;
 			setTappingTerm(5000); // LENGTH OF THE ACTION
 			resetTimer();
 			
@@ -225,9 +226,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
 			htim14.Instance-> CCR1 = 0;
 	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+			updateDisplay();
 			// END THE ACTION
 			
-			tapState = 0;
+			tapAction = IDLE;
 			setTappingTerm(300); // RESTORE TAPPING TERM
 			resetTimer();
 			

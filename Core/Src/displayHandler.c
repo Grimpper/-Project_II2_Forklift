@@ -1,9 +1,9 @@
 #include "gpio.h"
-#include "lift.h"
-#include "display.h"
+#include "liftHandler.h"
+#include "displayHandler.h"
 
 const uint8_t floorTable[10] = {
-	0x40,	// 0b 0100 0000 = 0
+	0x3F,	// 0b 0101 1111 = 0
 	0x79, // 0b 0111 1001 = 1
 	0x24, // 0b 0010 0100 = 2
 	0x30, // 0b 0011 0000 = 3
@@ -15,7 +15,7 @@ const uint8_t floorTable[10] = {
 	0x18  // 0b 0001 1000 = 9
 };
 
-void initDisplay(void)
+void initDisplay()
 {
 	GPIO_InitTypeDef display_port;
 	
@@ -28,12 +28,13 @@ void initDisplay(void)
 	HAL_GPIO_Init(GPIOC, &display_port);
 }
 
-void showDisplay(void)
+void updateDisplay()
 {
-	GPIOC->ODR = floorTable[get_floor()];
+	clearDisplay();
+	GPIOC->ODR |= floorTable[getFloor()];
 }
 
-void clearDisplay(void)
+void clearDisplay()
 {
 	GPIOC->ODR &= 0xFF80;
 }

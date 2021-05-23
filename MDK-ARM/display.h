@@ -1,8 +1,9 @@
 #ifndef __DISPLAY_H
 #define __DISPLAY_H
 
-void display_init (void);
-void display_show (void);
+void initDisplay(void);
+void showDisplay(void);
+void clearDisplay(void);
 
 #endif
 
