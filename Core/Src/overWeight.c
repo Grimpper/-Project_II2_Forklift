@@ -5,15 +5,48 @@
 #include "tim.h"
 #include "gpio.h"
 #include "overWeight.h"
+#include "safetyHandler.h"
 
 #define MVOLT_REF 2950
 
+void overWeightCondition(void)
+{
+		uint32_t weight;
+	
+			weight = readWeight();
+		
+		if (weight > 5000)
+		{
+			lockLifter();
+			
+		  while(weight > 5000){
+      
+			weight = readWeight();
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
+      HAL_Delay(2000);
+				
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);	
+			HAL_Delay(2000);
+				
+			}
+			
+		  unlockLifter();
+			
+		}
+	
+	
+}
+
+
 void weightInit(void){
 	
-
-	//
-	
-/*	
+	/*
 	GPIO_InitTypeDef GPIO_InitStructure;
 	ADC_InitTypeDef ADC_InitStructure;
 	ADC_CommonInitTypeDef ADC_CommonInitStructure;
@@ -27,6 +60,7 @@ void weightInit(void){
 	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 }
+	
 
 void adcInit(void){
 	
@@ -59,9 +93,10 @@ void adcInit(void){
 	ADC_Cmd(ADC!, ENABLE);
 	
 }
+*/
 
 int32_t readWeight(void){  //EJEMPLO COPIADO DE UN LM35, VER COMO SERÍA LA ECUACIÓN PARA EL PESO CON OTRO SENSOR.
-	
+/*	
 	uint32_t adcValue;
 	int32_T milivolts;
 	int32_t kg;
@@ -81,6 +116,8 @@ int32_t readWeight(void){  //EJEMPLO COPIADO DE UN LM35, VER COMO SERÍA LA ECUAC
 	return kg;
 */	
 }	
-
+void overWeightRutine(void){
+	
+}
 	
 	

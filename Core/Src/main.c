@@ -89,6 +89,9 @@ int main(void)
   /* USER CODE BEGIN Init */
 	initDisplay();
 	initSafetyPins();
+//	weightInit();
+//  adcInit();
+	
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -177,23 +180,29 @@ void EXTI1_IRQHandler(void)
 	}
 		
 }
-static uint8_t latchState = 1; //First time we open the door, latch is open
+typedef enum{
+	CLOSE,
+	OPEN
+} latchStateEnum;
+
+static latchStateEnum latchState = OPEN; //First time we open the door, latch is open
 void EXTI2_IRQHandler(void)
 {
 	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_2))
 	{
 		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_2);
 			
-			if (latchState == 1) 
+			if (latchState == OPEN) 
 			{
 				lockLifter();
-				latchState = 0;
+				latchState = CLOSE;
 				
 				
-			}else if(latchState == 0)
+			}
+			else if(latchState == CLOSE)
 			{
 				unlockLifter();
-				latchState = 1;
+				latchState = OPEN;
 			}
 			
 	}
@@ -213,40 +222,13 @@ void EXTI2_IRQHandler(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-/*		uint32_t weight;
-		
-		weightInit();
-		adcInit();
-*/	
+
 	if (htim->Instance == TIM6)
 	{
 		extern tapActionEnum tapAction;
-/*
-		weight = readWeight();
+
+		overWeightCondition();
 		
-		if (weight > 5000)
-		{
-			lockLifter();
-			
-		  while(weight > 5000){
-      
-			weight = readWeight();
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET);
-      HAL_Delay(2000);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_14, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);	
-			HAL_Delay(2000);
-			}
-			
-		  unlockLifter();
-			
-		}	
-		*/
 		if (tapAction == UP) 
 		{
 			// ACTION TO DO ON SINGLE TAP

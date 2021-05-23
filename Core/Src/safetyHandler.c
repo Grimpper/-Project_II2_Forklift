@@ -2,6 +2,7 @@
 #include <stm32f4xx_hal.h>
 #include <gpio.h>
 #include <stdio.h>
+#include "liftHandler.h"
 #include "tim.h"
 
 void initSafetyPins()
@@ -38,7 +39,7 @@ void emergencyStop()
 
 void lockLifter()
 {	
-	//ANTONIO'S FUNCTION TO STOP MOTOR
+	stopMotor();
   HAL_NVIC_DisableIRQ(EXTI0_IRQn);
 	HAL_TIM_Base_Stop_IT(&htim6);
 }
