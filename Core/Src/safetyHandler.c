@@ -69,8 +69,8 @@ void emergencyStop()
 		HAL_Delay(250);
 		HAL_GPIO_WritePin(GPIOD, emergencyLightPins, GPIO_PIN_RESET);
 		HAL_Delay(250);
-		
-		if (!overweight &&  HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == RESET ) break; 
+//!overweight		
+		if (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == RESET ) break; 
 	}
 }
 
@@ -86,7 +86,7 @@ void unlockLifter()
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 }
 
-void overweightRutine(void)
+void overweightRoutine(void)
 {
 
 	
