@@ -26,7 +26,7 @@
 #include "safetyHandler.h"
 #include "displayHandler.h"
 #include "liftHandler.h"
-#include "overWeight.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -249,7 +249,19 @@ void TIM6_DAC_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
-
+void EXTI1_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
+	{
+		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
+			
+		emergencyStop();
+		
+		
+	}
+		
+	
+}
 
 void EXTI2_IRQHandler(void)
 {
@@ -276,13 +288,16 @@ void EXTI2_IRQHandler(void)
 		
 	
 }
+
+volatile uint8_t overweight = 1;
+
 void EXTI3_IRQHandler(void)
 {
 	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_3))
 	{
 		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_3);
 			
-		overWeightRutine();
+		overweightRoutine();
 		
 	}
 		

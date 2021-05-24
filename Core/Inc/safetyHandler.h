@@ -5,11 +5,6 @@ void initSafetyPins(void);
 void emergencyStop(void);
 void lockLifter(void);
 void unlockLifter(void);
-void overWeightRutine(void);
-typedef enum{
-	NO,
-	YES
-} overWeightEnum;
-
+void overweightRoutine(void);
 
 #endif

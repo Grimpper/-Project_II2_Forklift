@@ -19,10 +19,11 @@ void initDisplay()
 {
 	GPIO_InitTypeDef display_port;
 	
-	__HAL_RCC_GPIOA_CLK_ENABLE();
+	__HAL_RCC_GPIOC_CLK_ENABLE();
 	
 	display_port.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;
 	display_port.Mode = GPIO_MODE_OUTPUT_PP;
+	display_port.Speed = GPIO_SPEED_FREQ_LOW;
 	display_port.Pull = GPIO_NOPULL;
 	
 	HAL_GPIO_Init(GPIOC, &display_port);

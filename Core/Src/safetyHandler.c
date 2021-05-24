@@ -5,6 +5,9 @@
 #include "liftHandler.h"
 #include "tim.h"
 
+extern uint8_t overweight;
+
+
 void initSafetyPins()
 {
 	//init button
@@ -66,6 +69,8 @@ void emergencyStop()
 		HAL_Delay(250);
 		HAL_GPIO_WritePin(GPIOD, emergencyLightPins, GPIO_PIN_RESET);
 		HAL_Delay(250);
+		
+		if (!overweight &&  HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1) == RESET ) break; 
 	}
 }
 
@@ -81,9 +86,13 @@ void unlockLifter()
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 }
 
-void overWeightRutine(void)
+void overweightRutine(void)
 {
 
+	
+			if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3)==SET)
+			overweight = 1;
+	
 			lockLifter();
 			
 		  while(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3)==SET){
@@ -103,5 +112,8 @@ void overWeightRutine(void)
 			}
 
 		  unlockLifter();
+			
+			if(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3)==RESET)
+			overweight = 0;
 			
 }
