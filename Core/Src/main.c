@@ -30,7 +30,6 @@
 #include "safetyHandler.h"
 #include "displayHandler.h"
 #include "liftHandler.h"
-#include "overWeight.h"
 
 /* USER CODE END Includes */
 
