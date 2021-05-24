@@ -8,6 +8,8 @@
 void initSafetyPins()
 {
 	GPIO_InitTypeDef port;
+
+	HAL_NVIC_DisableIRQ(EXTI1_IRQn);
 	
 	if (!__HAL_RCC_GPIOA_IS_CLK_ENABLED()) __HAL_RCC_GPIOA_CLK_ENABLE();
 	
@@ -16,11 +18,22 @@ void initSafetyPins()
 	port.Pull = GPIO_PULLDOWN;
 	
 	HAL_GPIO_Init(GPIOA, &port);	
+
+	HAL_NVIC_SetPriority(EXTI1_IRQn, 0, 0);
+	
+	HAL_NVIC_EnableIRQ(EXTI1_IRQn);
+	
+	HAL_NVIC_DisableIRQ(EXTI2_IRQn);
 	
 	port.Pin = GPIO_PIN_2;
 	port.Mode = GPIO_MODE_IT_RISING_FALLING;
+	port.Pull = GPIO_NOPULL;
+	HAL_GPIO_Init(GPIOA, &port);
+	
+	HAL_NVIC_SetPriority(EXTI2_IRQn, 1, 0);
+	
+	HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 
-	HAL_GPIO_Init(GPIOA, &port);	
 }
 
 void emergencyStop()

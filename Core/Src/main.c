@@ -170,45 +170,8 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void EXTI1_IRQHandler(void)
-{
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
-	{
-		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
-	
-		emergencyStop();	
-	}
-		
-}
-typedef enum{
-	CLOSE,
-	OPEN
-} latchStateEnum;
 
-static latchStateEnum latchState = OPEN; //First time we open the door, latch is open
-void EXTI2_IRQHandler(void)
-{
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_2))
-	{
-		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_2);
-			
-			if (latchState == OPEN) 
-			{
-				lockLifter();
-				latchState = CLOSE;
-				
-				
-			}
-			else if(latchState == CLOSE)
-			{
-				unlockLifter();
-				latchState = OPEN;
-			}
-			
-	}
-		
-	
-}
+
 /* USER CODE END 4 */
 
  /**
@@ -227,7 +190,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		extern tapActionEnum tapAction;
 
-		overWeightCondition();
 		
 		if (tapAction == UP) 
 		{

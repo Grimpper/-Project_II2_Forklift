@@ -23,6 +23,10 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "safetyHandler.h"
+#include "displayHandler.h"
+#include "liftHandler.h"
+#include "overWeight.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -244,6 +248,47 @@ void TIM6_DAC_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+
+
+
+void EXTI2_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_2))
+	{
+		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_2);
+			
+		static latchStateEnum latchState = OPEN; //First time we open the door, latch is open	
+		
+		if (latchState == OPEN) 
+			{
+				lockLifter();
+				latchState = CLOSE;
+				
+				
+			}
+			else if(latchState == CLOSE)
+			{
+				unlockLifter();
+				latchState = OPEN;
+			}
+			
+	}
+		
+	
+}
+void EXTI3_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_3))
+	{
+		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_3);
+			
+		overWeightRutine();
+		
+	}
+		
+	
+}
+
 
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
