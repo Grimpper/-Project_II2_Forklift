@@ -1,4 +1,6 @@
 #include "liftHandler.h"
+#include "safetyHandler.h"
+#include "displayHandler.h"
 #include "gpio.h"
 #include "tim.h"
 
@@ -6,8 +8,8 @@
 
 static uint16_t _currentFloor = 0;
 
-
-void initLift(){
+void initUserButton()
+{
 	GPIO_InitTypeDef lift_port;
 	
 	__HAL_RCC_GPIOA_CLK_ENABLE();
@@ -17,8 +19,12 @@ void initLift(){
 	lift_port.Pull = GPIO_NOPULL;
 	
 	HAL_GPIO_Init(GPIOA, &lift_port);
-	
-	
+}
+
+void initLift(){
+	initUserButton();
+	initDisplay();
+	initSafetyPins();	
 }
 
 void initPwmSwitch()

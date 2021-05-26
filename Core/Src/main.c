@@ -87,8 +87,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-	initDisplay();
-	initSafetyPins();
+	initLift();
 //	weightInit();
 //  adcInit();
 	
