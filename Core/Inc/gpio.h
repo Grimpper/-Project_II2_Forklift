@@ -39,6 +39,10 @@ void MX_GPIO_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
+void ledOn(uint32_t n);
+void ledOff(uint32_t n);
+uint32_t buttonStatus(uint32_t n);
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -23,10 +23,9 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "safetyHandler.h"
-#include "displayHandler.h"
+#include <stdio.h>
 #include "liftHandler.h"
-
+#include "displayHandler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,7 +59,6 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DAC_HandleTypeDef hdac;
 extern TIM_HandleTypeDef htim6;
 /* USER CODE BEGIN EV */
 
@@ -193,7 +191,7 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-	
+
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -205,11 +203,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles EXTI line0 interrupt.
-  */
-
-
-/**
   * @brief This function handles TIM6 global interrupt, DAC1 and DAC2 underrun error interrupts.
   */
 void TIM6_DAC_IRQHandler(void)
@@ -217,7 +210,6 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
 
   /* USER CODE END TIM6_DAC_IRQn 0 */
-  HAL_DAC_IRQHandler(&hdac);
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 
@@ -225,6 +217,16 @@ void TIM6_DAC_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+void EXTI0_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_0))
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_0);
+			
+			printf("Tapped\n");
+			setTapState();
+		}
+}
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -284,60 +286,5 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		}
 	}
 }
-
-void EXTI0_IRQHandler(void)
-{
-  if(__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_0))
-  {
-    __HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_0);
-		
-    setTapState();
-  }
-}
-
-void EXTI1_IRQHandler(void)
-{
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
-	{
-		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
-			
-		emergencyStop();
-	}
-}
-
-void EXTI2_IRQHandler(void)
-{
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_2))
-	{
-		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_2);
-			
-		static latchStateEnum latchState = OPEN; //First time we open the door, latch is open	
-		
-		if (latchState == OPEN) 
-			{
-				lockLifter();
-				latchState = CLOSE;
-			}
-			else if(latchState == CLOSE)
-			{
-				unlockLifter();
-				latchState = OPEN;
-			}
-	}
-}
-
-volatile uint8_t overweight = 1;
-
-void EXTI3_IRQHandler(void)
-{
-	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_3))
-	{
-		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_3);
-			
-		overweightRoutine();
-	}
-}
-
-
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

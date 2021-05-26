@@ -19,19 +19,13 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "dac.h"
 #include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
 #include <stdint.h>
-#include "doubleTapHandler.h"
-#include "safetyHandler.h"
-#include "displayHandler.h"
 #include "liftHandler.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -72,7 +66,7 @@ void SystemClock_Config(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -81,9 +75,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-//	weightInit();
-//  adcInit();
-	
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -97,22 +89,15 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM6_Init();
   MX_TIM14_Init();
-  MX_DAC_Init();
   /* USER CODE BEGIN 2 */
-	
-	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
-	setTappingTerm(300);
-	setMinTappingTerm(60);
-	updateDisplay();
-	
 	initLift();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -164,7 +149,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
 
 /* USER CODE END 4 */
 
