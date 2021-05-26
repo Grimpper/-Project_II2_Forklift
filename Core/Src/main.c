@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dac.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -104,6 +105,7 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM6_Init();
   MX_TIM14_Init();
+  MX_DAC_Init();
   /* USER CODE BEGIN 2 */
 	
 	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
@@ -242,14 +244,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		}
 	
 	}
-  /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM1) {
-    HAL_IncTick();
-		
-  }
-  /* USER CODE BEGIN Callback 1 */
-
-  /* USER CODE END Callback 1 */
 }
 
 /**
@@ -266,6 +260,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
+
 
 #ifdef  USE_FULL_ASSERT
 /**
