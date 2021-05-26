@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include "liftHandler.h"
 #include "displayHandler.h"
+#include "safetyHandler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -225,6 +226,16 @@ void EXTI0_IRQHandler(void)
 			
 			printf("Tapped\n");
 			setTapState();
+		}
+}
+
+void EXTI1_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
+			extern volatile uint8_t stop;
+			stop = 1;
 		}
 }
 
