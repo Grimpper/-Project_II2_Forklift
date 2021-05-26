@@ -218,6 +218,9 @@ void TIM6_DAC_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+
+extern volatile struct Emergency emergency;
+
 void EXTI0_IRQHandler(void)
 {
 	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_0))
@@ -234,8 +237,16 @@ void EXTI1_IRQHandler(void)
 	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
 		{
 			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
-			extern volatile uint8_t stop;
-			stop = 1;
+			emergency.stop = 1;
+		}
+}
+
+void EXTI3_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_3))
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_3);
+			emergency.overweight = 1;
 		}
 }
 
