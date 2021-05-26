@@ -15,7 +15,7 @@ void initUserButton()
 	__HAL_RCC_GPIOA_CLK_ENABLE();
 	
 	lift_port.Pin = GPIO_PIN_0;
-	lift_port.Mode = GPIO_MODE_INPUT;
+	lift_port.Mode = GPIO_MODE_IT_RISING;
 	lift_port.Pull = GPIO_NOPULL;
 	
 	HAL_GPIO_Init(GPIOA, &lift_port);
@@ -23,7 +23,7 @@ void initUserButton()
 
 void initLift(){
 	initUserButton();
-	initDisplay();
+	//initDisplay();
 	initSafetyPins();	
 }
 

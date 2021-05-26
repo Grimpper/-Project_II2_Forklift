@@ -207,16 +207,7 @@ void SysTick_Handler(void)
 /**
   * @brief This function handles EXTI line0 interrupt.
   */
-void EXTI0_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI0_IRQn 0 */
 
-  /* USER CODE END EXTI0_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-  /* USER CODE BEGIN EXTI0_IRQn 1 */
-
-  /* USER CODE END EXTI0_IRQn 1 */
-}
 
 /**
   * @brief This function handles TIM6 global interrupt, DAC1 and DAC2 underrun error interrupts.
@@ -292,6 +283,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			HAL_TIM_Base_Stop_IT(&htim6);
 		}
 	}
+}
+
+void EXTI0_IRQHandler(void)
+{
+  if(__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_0))
+  {
+    __HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_0);
+		
+    setTapState();
+  }
 }
 
 void EXTI1_IRQHandler(void)

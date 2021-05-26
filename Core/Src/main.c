@@ -63,12 +63,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	
-	setTapState();
-}
-
 /* USER CODE END 0 */
 
 /**
@@ -87,7 +81,6 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-	initLift();
 //	weightInit();
 //  adcInit();
 	
@@ -112,6 +105,7 @@ int main(void)
 	setMinTappingTerm(60);
 	updateDisplay();
 	
+	initLift();
   /* USER CODE END 2 */
 
   /* Infinite loop */
