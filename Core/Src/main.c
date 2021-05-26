@@ -175,77 +175,6 @@ void SystemClock_Config(void)
 
 /* USER CODE END 4 */
 
- /**
-  * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM1 interrupt took place, inside
-  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
-  * a global variable "uwTick" used as application time base.
-  * @param  htim : TIM handle
-  * @retval None
-  */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  /* USER CODE BEGIN Callback 0 */
-
-	if (htim->Instance == TIM6)
-	{
-		extern tapActionEnum tapAction;
-
-		
-		if (tapAction == UP) 
-		{
-			// ACTION TO DO ON SINGLE TAP
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			updateFloor(tapAction); //Motor UP (liftHandler.c)
-			updateDisplay();
-			// ACTION TO DO ON SINGLE TAP
-			
-			tapAction = WAITING;
-			setTappingTerm(5000); // LENGTH OF THE ACTION
-		}
-		else if (tapAction == DOWN)
-		{
-			// ACTION TO DO ON DOUBLE TAP
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-			updateFloor(tapAction); //Motor Dowm (liftHandler.c)
-			updateDisplay();
-			// ACTION TO DO ON DOUBLE TAP
-			
-			tapAction = WAITING;
-			setTappingTerm(5000); // LENGTH OF THE ACTION
-			
-			/* NOTE
-			
-			Since the tapping term sets the overflow limit of the timer that drives this
-			interruption, setting it to a longer period after the tapState is declared, will
-			prevent the next iteration to be called until the new overflow is reached. In the
-			next iteration of this interuption the tapState will be 3 and therfore the action 
-			will be stoped in the below else statement. After stopping the action we set the 
-			tapping term to normal operation.
-			
-			*/
-		}
-		else 
-		{	
-			// END THE ACTION
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			htim14.Instance-> CCR1 = 0;
-	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-			updateDisplay();
-			// END THE ACTION
-			
-			tapAction = IDLE;
-			setTappingTerm(300); // RESTORE TAPPING TERM
-			
-			HAL_TIM_Base_Stop_IT(&htim6);
-		}
-	
-	}
-}
-
 /**
   * @brief  This function is executed in case of error occurrence.
   * @retval None
@@ -260,7 +189,6 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
 
 #ifdef  USE_FULL_ASSERT
 /**

@@ -235,6 +235,65 @@ void TIM6_DAC_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM6)
+	{
+		extern tapActionEnum tapAction;
+		
+		if (tapAction == UP) 
+		{
+			// ACTION TO DO ON SINGLE TAP
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			updateFloor(tapAction); //Motor UP (liftHandler.c)
+			updateDisplay();
+			// ACTION TO DO ON SINGLE TAP
+			
+			tapAction = WAITING;
+			setTappingTerm(500); // LENGTH OF THE ACTION
+		}
+		else if (tapAction == DOWN)
+		{
+			// ACTION TO DO ON DOUBLE TAP
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			updateFloor(tapAction); //Motor Dowm (liftHandler.c)
+			updateDisplay();
+			// ACTION TO DO ON DOUBLE TAP
+			
+			tapAction = WAITING;
+			setTappingTerm(500); // LENGTH OF THE ACTION
+			
+			/* NOTE
+			
+			Since the tapping term sets the overflow limit of the timer that drives this
+			interruption, setting it to a longer period after the tapState is declared, will
+			prevent the next iteration to be called until the new overflow is reached. In the
+			next iteration of this interuption the tapState will be 3 and therfore the action 
+			will be stoped in the below else statement. After stopping the action we set the 
+			tapping term to normal operation.
+			
+			*/
+		}
+		else 
+		{	
+			// END THE ACTION
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			TIM14-> CCR1 = 0;
+	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+			updateDisplay();
+			// END THE ACTION
+			
+			tapAction = IDLE;
+			setTappingTerm(300); // RESTORE TAPPING TERM
+			
+			HAL_TIM_Base_Stop_IT(&htim6);
+		}
+	}
+}
+
 void EXTI1_IRQHandler(void)
 {
 	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
@@ -242,11 +301,7 @@ void EXTI1_IRQHandler(void)
 		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
 			
 		emergencyStop();
-		
-		
 	}
-		
-	
 }
 
 void EXTI2_IRQHandler(void)
@@ -261,18 +316,13 @@ void EXTI2_IRQHandler(void)
 			{
 				lockLifter();
 				latchState = CLOSE;
-				
-				
 			}
 			else if(latchState == CLOSE)
 			{
 				unlockLifter();
 				latchState = OPEN;
 			}
-			
 	}
-		
-	
 }
 
 volatile uint8_t overweight = 1;
@@ -284,10 +334,7 @@ void EXTI3_IRQHandler(void)
 		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_3);
 			
 		overweightRoutine();
-		
 	}
-		
-	
 }
 
 
