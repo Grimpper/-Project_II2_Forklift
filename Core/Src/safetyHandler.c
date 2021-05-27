@@ -4,8 +4,12 @@
 #include <stdio.h>
 #include "liftHandler.h"
 #include "tim.h"
+#include "dac.h"
 
 volatile struct Emergency emergency = { 0, 0, 0 };
+float overweightValue = 5; //The value of the weight in tons:  1 ton = 1000 kg. Max value = 10.0 tons
+float valVolt = 1.5;    //Range: 0 - 3 volts If overweight 5 -> 1.5 volts
+uint8_t valByte;
 
 void initSafetyPins()
 {
@@ -35,6 +39,14 @@ void initSafetyPins()
 	port.Pull = GPIO_PULLDOWN;
 	
 	HAL_GPIO_Init(GPIOA, &port);	
+	
+	//Init overweight voltage reference
+	
+	valVolt = 3 * overweightValue / 10;	
+	valByte =(uint8_t)((valVolt/3)*255);
+	
+	HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
+	HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1,DAC_ALIGN_8B_R, valByte);
 }
 
 void handleEmergency()
