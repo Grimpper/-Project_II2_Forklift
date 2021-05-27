@@ -27,6 +27,7 @@
 #include "liftHandler.h"
 #include "displayHandler.h"
 #include "safetyHandler.h"
+#include "tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,7 +61,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim6;
+extern DAC_HandleTypeDef hdac;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -211,7 +212,7 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
 
   /* USER CODE END TIM6_DAC_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim6);
+  HAL_DAC_IRQHandler(&hdac);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 
   /* USER CODE END TIM6_DAC_IRQn 1 */
@@ -252,7 +253,7 @@ void EXTI3_IRQHandler(void)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if (htim->Instance == TIM6)
+	if (htim->Instance == TIM7)
 	{
 		extern tapActionEnum tapAction;
 		
@@ -304,7 +305,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			tapAction = IDLE;
 			setTappingTerm(300); // RESTORE TAPPING TERM
 			
-			HAL_TIM_Base_Stop_IT(&htim6);
+			HAL_TIM_Base_Stop_IT(&htim7);
 		}
 	}
 }

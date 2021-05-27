@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dac.h"
 #include "tim.h"
 #include "gpio.h"
 
@@ -88,8 +89,9 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM6_Init();
   MX_TIM14_Init();
+  MX_DAC_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
 	initLift();
   /* USER CODE END 2 */

@@ -62,7 +62,7 @@ void lockLifter()
 {	
 	stopMotor();
   HAL_NVIC_DisableIRQ(EXTI0_IRQn);
-	HAL_TIM_Base_Stop_IT(&htim6);
+	HAL_TIM_Base_Stop_IT(&htim7);
 	
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
@@ -71,7 +71,7 @@ void lockLifter()
 void unlockLifter()
 {
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
-	HAL_TIM_Base_Start_IT(&htim6);
+	HAL_TIM_Base_Start_IT(&htim7);
 }
 
 void overweightRoutine(void)
