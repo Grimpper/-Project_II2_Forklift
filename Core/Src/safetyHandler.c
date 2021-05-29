@@ -43,7 +43,7 @@ void initSafetyPins()
 	//Init overweight voltage reference
 	
 	valVolt = 3 * overweightValue / 10;	
-	valByte =(uint8_t)((valVolt/3)*255);
+	valByte =(uint8_t)((valVolt / 3) * 255);
 	
 	HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
 	HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1,DAC_ALIGN_8B_R, valByte);
