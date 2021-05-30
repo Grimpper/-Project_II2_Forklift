@@ -279,7 +279,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// ACTION TO DO ON SINGLE TAP
 			
 			tapAction = WAITING;
-			setTappingTerm(500); // LENGTH OF THE ACTION
+			setTappingTerm(5000); // LENGTH OF THE ACTION
 		}
 		else if (tapAction == DOWN)
 		{
@@ -289,7 +289,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// ACTION TO DO ON DOUBLE TAP
 			
 			tapAction = WAITING;
-			setTappingTerm(500); // LENGTH OF THE ACTION
+			setTappingTerm(5000); // LENGTH OF THE ACTION
 			
 			/* NOTE
 			
