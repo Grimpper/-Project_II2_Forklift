@@ -85,20 +85,3 @@ void unlockLifter()
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 	HAL_TIM_Base_Start_IT(&htim7);
 }
-
-void overweightRoutine(void)
-{
-			lockLifter();
-			
-		  while(HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_3)==SET){
-			
-			HAL_GPIO_WritePin(GPIOD, emergencyLightPins, GPIO_PIN_SET);
-      HAL_Delay(2000);
-				
-			HAL_GPIO_WritePin(GPIOD, emergencyLightPins, GPIO_PIN_RESET);
-			HAL_Delay(2000);
-				
-			}
-
-		  unlockLifter();	
-}
