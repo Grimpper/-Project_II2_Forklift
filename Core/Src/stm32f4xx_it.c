@@ -274,8 +274,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		if (tapAction == UP) 
 		{
 			// ACTION TO DO ON SINGLE TAP
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
 			updateFloor(tapAction); //Motor UP (liftHandler.c)
 			updateDisplay();
 			// ACTION TO DO ON SINGLE TAP
@@ -286,8 +284,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		else if (tapAction == DOWN)
 		{
 			// ACTION TO DO ON DOUBLE TAP
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
 			updateFloor(tapAction); //Motor Dowm (liftHandler.c)
 			updateDisplay();
 			// ACTION TO DO ON DOUBLE TAP
@@ -311,8 +307,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			// END THE ACTION
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			TIM14-> CCR1 = 0;
-	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+			stopMotor();
 			updateDisplay();
 			// END THE ACTION
 			

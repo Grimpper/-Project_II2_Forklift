@@ -72,12 +72,19 @@ void initPwmSwitch()
 
 void liftUp()
 {
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+	
 	// Motor actuator UP
 	TIM14->CCR1 = DUTY_CYCLE;
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET); 	//relay active to change motor polarity
 }
 
 void liftDown()
 {
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+	
 	// Motor actuator DOWN
 	TIM14->CCR1 = DUTY_CYCLE;
 	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_SET); 	//relay active to change motor polarity
@@ -86,7 +93,6 @@ void liftDown()
 void stopMotor()
 {
 	TIM14-> CCR1 = 0;
-	HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
 }
 
 void updateFloor(tapActionEnum tapAction)

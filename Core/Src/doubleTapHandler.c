@@ -26,7 +26,7 @@ void setTapState(void)
 {	
 	if (tapAction == IDLE) {
 		tapAction = UP;
-		TIM7->CNT = 0; // Reset counter value
+		resetTimer();
 		HAL_TIM_Base_Start_IT(&htim7); // Can count up to 6.5535 s but will overflow at TAPPINGTERM ms
 	}
 	else if (tapAction == UP)
