@@ -15,6 +15,5 @@ void initSafetyPins(void);
 void handleEmergency(void);
 void lockLifter(void);
 void unlockLifter(void);
-void overweightRoutine(void);
 
 #endif
