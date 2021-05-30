@@ -137,7 +137,7 @@
             <DriverSelection>4101</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash2>BIN\UL2V8M.DLL</Flash2>
           <Flash3></Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;              ../Drivers/STM32F4xx_HAL_Driver/Inc;              ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;              ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;              ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Core/Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc;      ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;      ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;      ../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -399,14 +399,59 @@
               <FilePath>..\Core\Src\debug.c</FilePath>
             </File>
             <File>
-              <FileName>doubleTapHandler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\doubleTapHandler.c</FilePath>
+              <FileName>displayHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\displayHandler.h</FilePath>
             </File>
             <File>
               <FileName>doubleTapHandler.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Core\Inc\doubleTapHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>liftHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\liftHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>safetyHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\safetyHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>timerHandler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\timerHandler.h</FilePath>
+            </File>
+            <File>
+              <FileName>displayHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\displayHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>doubleTapHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\doubleTapHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>liftHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\liftHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>safetyHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\safetyHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>timerHandler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Core\Src\timerHandler.c</FilePath>
+            </File>
+            <File>
+              <FileName>tim.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Core\Inc\tim.h</FilePath>
             </File>
             <File>
               <FileName>main.c</FileName>
@@ -419,9 +464,14 @@
               <FilePath>../Core/Src/gpio.c</FilePath>
             </File>
             <File>
+              <FileName>dac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Core/Src/dac.c</FilePath>
+            </File>
+            <File>
               <FileName>tim.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Core/Src/tim.c</FilePath>
+              <FilePath>..\Core\Src\tim.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_it.c</FileName>
@@ -433,55 +483,20 @@
               <FileType>1</FileType>
               <FilePath>../Core/Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
-            <File>
-              <FileName>stm32f4xx_hal_timebase_tim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Core/Src/stm32f4xx_hal_timebase_tim.c</FilePath>
-            </File>
-            <File>
-              <FileName>safetyHandler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\safetyHandler.c</FilePath>
-            </File>
-            <File>
-              <FileName>safetyHandler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Inc\safetyHandler.h</FilePath>
-            </File>
-            <File>
-              <FileName>displayHandler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Inc\displayHandler.h</FilePath>
-            </File>
-            <File>
-              <FileName>displayHandler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\displayHandler.c</FilePath>
-            </File>
-            <File>
-              <FileName>liftHandler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Core\Inc\liftHandler.h</FilePath>
-            </File>
-            <File>
-              <FileName>liftHandler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Core\Src\liftHandler.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Drivers/STM32F4xx_HAL_Driver</GroupName>
           <Files>
             <File>
-              <FileName>stm32f4xx_hal_tim.c</FileName>
+              <FileName>stm32f4xx_hal_dac.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c</FilePath>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac.c</FilePath>
             </File>
             <File>
-              <FileName>stm32f4xx_hal_tim_ex.c</FileName>
+              <FileName>stm32f4xx_hal_dac_ex.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</FilePath>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_dac_ex.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_hal_rcc.c</FileName>
@@ -547,6 +562,16 @@
               <FileName>stm32f4xx_hal_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</FilePath>
             </File>
           </Files>
         </Group>

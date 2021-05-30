@@ -23,6 +23,11 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include "liftHandler.h"
+#include "displayHandler.h"
+#include "safetyHandler.h"
+#include "tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,9 +61,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim6;
-extern TIM_HandleTypeDef htim1;
-
+extern DAC_HandleTypeDef hdac;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -188,9 +191,9 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-
+  HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-	
+
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -202,34 +205,6 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles EXTI line0 interrupt.
-  */
-void EXTI0_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI0_IRQn 0 */
-
-  /* USER CODE END EXTI0_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_0);
-  /* USER CODE BEGIN EXTI0_IRQn 1 */
-
-  /* USER CODE END EXTI0_IRQn 1 */
-}
-
-/**
-  * @brief This function handles TIM1 update interrupt and TIM10 global interrupt.
-  */
-void TIM1_UP_TIM10_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 0 */
-
-  /* USER CODE END TIM1_UP_TIM10_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim1);
-  /* USER CODE BEGIN TIM1_UP_TIM10_IRQn 1 */
-
-  /* USER CODE END TIM1_UP_TIM10_IRQn 1 */
-}
-
-/**
   * @brief This function handles TIM6 global interrupt, DAC1 and DAC2 underrun error interrupts.
   */
 void TIM6_DAC_IRQHandler(void)
@@ -237,7 +212,7 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 0 */
 
   /* USER CODE END TIM6_DAC_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim6);
+  HAL_DAC_IRQHandler(&hdac);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 
   /* USER CODE END TIM6_DAC_IRQn 1 */
@@ -245,5 +220,94 @@ void TIM6_DAC_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
+extern volatile struct Emergency emergency;
+
+void EXTI0_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_0))
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_0);
+			
+			printf("Tapped\n");
+			setTapState();
+		}
+}
+
+void EXTI1_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_1))
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_1);
+			emergency.stop = 1;
+		}
+}
+
+void EXTI3_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(GPIO_PIN_3))
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_3);
+			emergency.overweight = 1;
+		}
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if (htim->Instance == TIM7)
+	{
+		extern tapActionEnum tapAction;
+		
+		if (tapAction == UP) 
+		{
+			// ACTION TO DO ON SINGLE TAP
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			updateFloor(tapAction); //Motor UP (liftHandler.c)
+			updateDisplay();
+			// ACTION TO DO ON SINGLE TAP
+			
+			tapAction = WAITING;
+			setTappingTerm(500); // LENGTH OF THE ACTION
+		}
+		else if (tapAction == DOWN)
+		{
+			// ACTION TO DO ON DOUBLE TAP
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+			updateFloor(tapAction); //Motor Dowm (liftHandler.c)
+			updateDisplay();
+			// ACTION TO DO ON DOUBLE TAP
+			
+			tapAction = WAITING;
+			setTappingTerm(500); // LENGTH OF THE ACTION
+			
+			/* NOTE
+			
+			Since the tapping term sets the overflow limit of the timer that drives this
+			interruption, setting it to a longer period after the tapState is declared, will
+			prevent the next iteration to be called until the new overflow is reached. In the
+			next iteration of this interuption the tapState will be 3 and therfore the action 
+			will be stoped in the below else statement. After stopping the action we set the 
+			tapping term to normal operation.
+			
+			*/
+		}
+		else 
+		{	
+			// END THE ACTION
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+			TIM14-> CCR1 = 0;
+	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
+			updateDisplay();
+			// END THE ACTION
+			
+			tapAction = IDLE;
+			setTappingTerm(300); // RESTORE TAPPING TERM
+			
+			HAL_TIM_Base_Stop_IT(&htim7);
+		}
+	}
+}
 /* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

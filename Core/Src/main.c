@@ -19,18 +19,15 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dac.h"
 #include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
 #include <stdint.h>
-#include "doubleTapHandler.h"
-#include "safetyHandler.h"
-#include "displayHandler.h"
 #include "liftHandler.h"
-
+#include "safetyHandler.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -62,11 +59,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-	setTapState();
-}
-
 /* USER CODE END 0 */
 
 /**
@@ -76,7 +68,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-	
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -85,7 +77,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-	initDisplay();
+
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -97,22 +89,18 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM6_Init();
   MX_TIM14_Init();
+  MX_DAC_Init();
+  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-	
-	HAL_TIM_PWM_Start (&htim14,TIM_CHANNEL_1);
-	setTappingTerm(300);
-	setMinTappingTerm(60);
-	
-	updateDisplay();
+	initLift();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
+		handleEmergency();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -166,82 +154,6 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
-
- /**
-  * @brief  Period elapsed callback in non blocking mode
-  * @note   This function is called  when TIM1 interrupt took place, inside
-  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
-  * a global variable "uwTick" used as application time base.
-  * @param  htim : TIM handle
-  * @retval None
-  */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  /* USER CODE BEGIN Callback 0 */
-	if (htim->Instance == TIM6)
-	{
-		extern tapActionEnum tapAction;
-		
-		if (tapAction == UP) 
-		{
-			// ACTION TO DO ON SINGLE TAP
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_SET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			updateFloor(tapAction); //Motor UP (liftHandler.c)
-			updateDisplay();
-			// ACTION TO DO ON SINGLE TAP
-			
-			tapAction = WAITING;
-			setTappingTerm(5000); // LENGTH OF THE ACTION
-		}
-		else if (tapAction == DOWN)
-		{
-			// ACTION TO DO ON DOUBLE TAP
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
-			updateFloor(tapAction); //Motor Dowm (liftHandler.c)
-			updateDisplay();
-			// ACTION TO DO ON DOUBLE TAP
-			
-			tapAction = WAITING;
-			setTappingTerm(5000); // LENGTH OF THE ACTION
-			
-			/* NOTE
-			
-			Since the tapping term sets the overflow limit of the timer that drives this
-			interruption, setting it to a longer period after the tapState is declared, will
-			prevent the next iteration to be called until the new overflow is reached. In the
-			next iteration of this interuption the tapState will be 3 and therfore the action 
-			will be stoped in the below else statement. After stopping the action we set the 
-			tapping term to normal operation.
-			
-			*/
-		}
-		else 
-		{	
-			// END THE ACTION
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
-			htim14.Instance-> CCR1 = 0;
-	    HAL_GPIO_WritePin(GPIOD, GPIO_PIN_15, GPIO_PIN_RESET);
-			updateDisplay();
-			// END THE ACTION
-			
-			tapAction = IDLE;
-			setTappingTerm(300); // RESTORE TAPPING TERM
-			
-			HAL_TIM_Base_Stop_IT(&htim6);
-		}
-	
-	}
-  /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM1) {
-    HAL_IncTick();
-  }
-  /* USER CODE BEGIN Callback 1 */
-
-  /* USER CODE END Callback 1 */
-}
 
 /**
   * @brief  This function is executed in case of error occurrence.
